@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { useState } from "react";
 import { assets } from "../assets/assets";
 
@@ -11,7 +12,11 @@ const Result = () => {
     e.preventDefault();
   };
   return (
-    <form
+    <motion.form
+      initial={{ opacity: 0.2, y: 100 }}
+      transition={{ duration: 1 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       onSubmit={onSubmitHandler}
       className="flex flex-col min-h-[90vh] justify-center items-center"
     >
@@ -64,7 +69,7 @@ const Result = () => {
           </a>
         </div>
       )}
-    </form>
+    </motion.form>
   );
 };
 export default Result;

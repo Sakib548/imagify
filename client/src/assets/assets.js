@@ -18,7 +18,7 @@ import step_icon_1 from "./step_icon_1.svg";
 import step_icon_2 from "./step_icon_2.svg";
 import step_icon_3 from "./step_icon_3.svg";
 import twitter_icon from "./twitter_icon.svg";
-
+import user_icon from "./user_icon.svg";
 export const assets = {
   logo,
   logo_icon,
@@ -35,6 +35,7 @@ export const assets = {
   star_group,
   credit_star,
   profile_icon,
+  user_icon,
 };
 
 export const stepsData = [
