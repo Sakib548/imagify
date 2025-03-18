@@ -18,6 +18,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight OPTIONS request
 app.use(express.json());
 
 await connectDB();
