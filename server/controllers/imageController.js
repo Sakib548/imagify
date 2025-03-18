@@ -15,7 +15,7 @@ const generateImage = async (req, res) => {
     }
 
     if (user.creditBalance === 0 || userModel.creditBalance < 0) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: "No credit Balance",
         creditBalance: user.creditBalance,
