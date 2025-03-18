@@ -11,7 +11,7 @@ const app = express();
 
 const allowedOrigins = [
   /https:\/\/.*\.vercel\.app$/, // Allow all Vercel preview domains
-  "https://client-tan-mu.vercel.app", // Production frontend URL
+  process.env.FRONTEND_URL, // Production frontend URL
   "http://localhost:3000", // Local development
 ];
 
