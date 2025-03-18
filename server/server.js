@@ -9,8 +9,17 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 
+// Configure CORS options
+const corsOptions = {
+  origin: process.env.FRONTEND_URL, // Frontend origin
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  credentials: true, // If using cookies/authentication
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
+
 await connectDB();
 
 app.use("/api/user", userRouter);
