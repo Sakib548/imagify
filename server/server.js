@@ -10,21 +10,44 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "http://localhost:3000", // For local development
+  /https:\/\/.*\.vercel\.app$/, // Allow all Vercel preview domains
+  "https://client-tan-mu.vercel.app", // Production frontend URL
+  "http://localhost:3000", // Local development
 ];
 
 // Configure CORS options
 const corsOptions = {
-  origin: allowedOrigins, // Frontend origin
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed methods
-  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
-  credentials: true, // If using cookies/authentication
+  origin: (origin, callback) => {
+    if (
+      !origin ||
+      allowedOrigins.some((allowedOrigin) => {
+        if (typeof allowedOrigin === "string") {
+          return origin === allowedOrigin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        }
+        return false;
+      })
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Preflight support
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log("Incoming Request:", req.method, req.url);
+  console.log("Headers:", req.headers);
+  next();
+});
 
 await connectDB();
 
