@@ -7,6 +7,7 @@ import { AppContext } from "./context/AppContext";
 import BuyCredit from "./pages/BuyCredit";
 import Home from "./pages/Home";
 import Result from "./pages/Result";
+import Verify from "./pages/Verify";
 
 const App = () => {
   const { showLogin } = useContext(AppContext);
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/result" element={<Result />} />
         <Route path="/buy" element={<BuyCredit />} />
+        <Route path="/verify" element={<Verify />} />
       </Routes>
       <Footer />
     </div>

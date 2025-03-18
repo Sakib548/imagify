@@ -1,10 +1,48 @@
+import axios from "axios";
 import { motion } from "motion/react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { assets, plans } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 
 const BuyCredit = () => {
-  const { user } = useContext(AppContext);
+  const { user, backendUrl, loadCreditsData, token, setShowLogin } =
+    useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  const initPay = async (order) => {
+    initPay(data.order);
+  };
+
+  const paymentStripe = async (planId) => {
+    try {
+      if (!user) {
+        setShowLogin(true);
+      }
+      console.log("USer", user);
+
+      const responseStripe = await axios.post(
+        backendUrl + "/api/user/stripe",
+        { planId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (responseStripe.data.success) {
+        const { session_url } = responseStripe.data;
+        window.location.replace(session_url);
+
+        navigate("/");
+      } else {
+        toast.error(responseStripe.data.message);
+      }
+    } catch (error) {
+      console.error("Unexpected Error:", error.message);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <motion.div
@@ -33,7 +71,10 @@ const BuyCredit = () => {
               <span className="text-3xl font-medium">${item.price}</span> /
               {item.credits} credits
             </p>
-            <button className="w-full bg-gray-800 text-white mt-8 text-sm rounded-md py-2.5 min-w-52">
+            <button
+              onClick={() => paymentStripe(item.id)}
+              className="w-full bg-gray-800 text-white mt-8 text-sm rounded-md py-2.5 min-w-52"
+            >
               {user ? "Purchase" : "Get Started"}
             </button>
           </div>
